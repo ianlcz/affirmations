@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies and run tests on node version 14.x
 
 name: Affirmations CI
-run-name: ${{ github.actor }} is running Affirmations CI on branch ${{ env.BRANCH_NAME }}
+run-name: ${{ github.actor }} is running Affirmations CI on branch ${{ github.ref }}
 
 on: [push]
 
@@ -13,15 +13,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "14.x"
-      - name: Get current branch name
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
       - name: Caching node modules
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-${{ env.BRANCH_NAME }}
+            ${{ runner.os }}-node-${{ github.ref }}
             ${{ runner.os }}-node-
       - name: Installing dependencies
         run: |
