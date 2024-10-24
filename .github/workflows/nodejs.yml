@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies and run tests on node version 14.x
 
 name: Affirmations CI
-run-name: ${{ github.actor }} is running Affirmations CI on Node 14.x
+run-name: ${{ github.actor }} is running Affirmations CI on branch ${{ GITHUB_REF#refs/heads/ }}
 
 on: [push]
 
@@ -17,11 +17,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json', 'yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Installing dependencies
-        run: npm i
+        run: |
+          if [ -f yarn.lock ]; then
+            yarn install
+          else
+            npm install
+          fi
       - name: Building application
         run: npm run build --if-present
       - name: Running tests
