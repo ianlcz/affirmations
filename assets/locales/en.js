@@ -1,4 +1,4 @@
-const affirmations = [
+const en = [
   "You got this",
   "You'll figure it out",
   "You're a smart cookie",
@@ -48,4 +48,4 @@ const affirmations = [
   "It's not a mistake, it's a learning opportunity",
 ];
 
-module.exports = affirmations
+module.exports = en;
