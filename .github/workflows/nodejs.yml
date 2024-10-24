@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies and run tests on node version 14.x
 
 name: Affirmations CI
-run-name: ${{ github.actor }} is running Affirmations CI on Node 8.x
+run-name: ${{ github.actor }} is running Affirmations CI on Node 14.x
 
 on: [push]
 
@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "8.x"
+          node-version: "14.x"
       - name: Caching node modules
         uses: actions/cache@v4
         with:
@@ -21,7 +21,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Installing dependencies
-        run: npm ci
+        run: npm i
+      - name: Building application
+        run: npm run build --if-present
       - name: Running tests
         run: npm test
         env:
